@@ -4,13 +4,12 @@
 
 # homebridge-sensibo-ac
 
-[![Downloads](https://img.shields.io/npm/dt/homebridge-sensibo-ac.svg?color=critical)](https://www.npmjs.com/package/homebridge-sensibo-ac)
-[![Version](https://img.shields.io/npm/v/homebridge-sensibo-ac)](https://www.npmjs.com/package/homebridge-sensibo-ac)<br>
-[![verified-by-homebridge](https://badgen.net/badge/homebridge/verified/purple)](https://github.com/homebridge/homebridge/wiki/Verified-Plugins) [![Homebridge Discord](https://img.shields.io/discord/432663330281226270?color=728ED5&logo=discord&label=discord)](https://discord.gg/yguuVAX)<br>
-[![certified-hoobs-plugin](https://badgen.net/badge/HOOBS/Certified/yellow)](https://plugins.hoobs.org?ref=10876) [![hoobs-support](https://badgen.net/badge/HOOBS/Support/yellow)](https://support.hoobs.org?ref=10876)
-
+[![Downloads](https://img.shields.io/npm/dt/@benwebbbenwebb/homebridge-sensibo-ac.svg?color=critical)](https://www.npmjs.com/package/@benwebbbenwebb/homebridge-sensibo-ac)
+[![Version](https://img.shields.io/npm/v/@benwebbbenwebb/homebridge-sensibo-ac)](https://www.npmjs.com/package/@benwebbbenwebb/homebridge-sensibo-ac)
 
 [Homebridge](https://github.com/nfarina/homebridge) plugin for Sensibo - Smart AC Controller and Air Purifier
+
+This is a forked version of [nitaybz's package](https://www.npmjs.com/package/homebridge-sensibo-ac), full credit to [nitaybz](https://github.com/nitaybz/).
 
 <img src="branding/products.jpg" width="500px">
 
@@ -25,7 +24,7 @@ check with: `node -v` & `homebridge -V` and update if needed
 ### Plugin Unique Features
 
 - Login with **username & password** instead of API-key (api-key is still supported).
-- **Sensibo Air Support** including the attached **Room Sensors**.
+- **Sensibo Air & Air Pro <sup>(this fork)</sup> Support** including the attached **Room Sensors**.
 - **Auto Detect Configurations** - Automatically detect all your devices and their capabilities and opens up only the options available in Sensibo app to be controlled in HomeKit. More details [below](##Auto-Detect-Configurations).
 - Accessory type "**HeaterCooler**" - allowing adjusting fan speed (Rotation Speed) & swing (Oscillate) from within the accessory in "Home" App.
 - **Fan Mode** control (including it's own fan speed and swing control) in a new separate accessory.
@@ -40,15 +39,15 @@ check with: `node -v` & `homebridge -V` and update if needed
 
 # Installation
 
-This plugin is Homebridge verified and HOOBS certified and can be easily installed and configured through their UI.
+**NOTE:** While nitaybz's plugin is Homebridge verified, HOOBS certified, and can be easily installed and configured through their respective UIs, I cannot say the same for this forked version.
 
 If you don't use Homebridge UI or HOOBS, or if you want to know more about the plugin features and options, keep reading...
 
 1. Install homebridge using: `sudo npm install -g homebridge --unsafe-perm`
-2. Install this plugin using: `sudo npm install -g homebridge-sensibo-ac`
+2. Install this fork of the plugin using the Homebridge UI by searching for: `@benwebbbenwebb/homebridge-sensibo-ac` in the Plugins tab; otherwise you can install it manually from terminal with: `sudo npm install -g @benwebbbenwebb/homebridge-sensibo-ac`
 3. Update your configuration file. See `config-sample.json` in this repository for a sample.
 
-\* install from git: `sudo npm install -g git+https://github.com/nitaybz/homebridge-sensibo-ac.git`
+\* install from git: `sudo npm install -g "https://github.com/benwebbbenwebb/homebridge-sensibo-ac.git#publish"`
 
 
 ## Config file
@@ -71,16 +70,20 @@ If you don't use Homebridge UI or HOOBS, or if you want to know more about the p
         "platform": "SensiboAC",
         "username": "******@*******.**",
         "password": "*******",
+        "apiKey": "*******",
+        "ignoreHomeKitDevices": false,
         "disableFan": false,
         "disableDry": false,
+        "disableHorizontalSwing": false,
+        "disableLightSwitch: false,
         "enableSyncButton": true,
         "syncButtonInAccessory": false,
         "enableOccupancySensor": true,
         "enableClimateReactSwitch": true,
         "enableHistoryStorage": true,
-        "disableHorizontalSwing": false,
-        "disableLightSwitch: false,
         "externalHumiditySensor": false,
+        "allowRepeatedCommands": false,
+        "devicesToExclude": [],
         "locationsToInclude": [],
         "debug": false
     }
@@ -97,22 +100,21 @@ If you don't use Homebridge UI or HOOBS, or if you want to know more about the p
 | `username`                 | Your Sensibo account username/email                           |     ✓    |     -    |  String  |
 | `password`                 | Your Sensibo account password                                 |     ✓    |     -    |  String  |
 | `apiKey`                   | Your Sensibo account API key (can be used instead of username/password)  |          |     -    |  String  |
+| `ignoreHomeKitDevices`     |  Automatically ignore, skip or remove HomeKit supported devices  |          |  `false` |  Boolean  |
 | `disableFan`               |  When set to `true`, it will disable the FAN accessory        |          |  `false` |  Boolean |
 | `disableDry`               |  When set to `true`, it will disable the DRY accessory        |          |  `false` |  Boolean |
 | `disableHorizontalSwing`   |  Disable horizontal swing control (via extra switch)          |          |  `false` |  Boolean |
-| `disableLightSwitch` |  Disable the Light service to control the AC Light (via extra light bulb)  |          |  `false` |  Boolean |
-| `enableSyncButton`         |  Adding a switch to quickly toggle the state of the AC without sending commands to the AC.   |          |  `false` |  Boolean  |
-| `syncButtonInAccessory`         |  When set to `true`, it will remove the extra AC Sync switch if it exists and will show \"AC Sync Button\" attached as a service to the Same AC Accessory (works only when `enableSyncButton` is set to true)   |          |  `false` |  Boolean  |
-| `enableOccupancySensor`    |  Adding occupancy sensor to represent the state of someone at home   |         |  `false` |  Boolean  |
-| `enableClimateReactSwitch` |  Adding a switch to quickly enable/disable climate react.     |          |  `false` |  Boolean  |
+| `disableLightSwitch`       |  Disable the Light service to control the AC Light (via extra light bulb)  |          |  `false` |  Boolean |
+| `enableSyncButton`         |  Adding a switch to quickly toggle the state of the AC without sending commands to the AC.  |          |  `false` |  Boolean  |
+| `syncButtonInAccessory`         |  When set to `true`, it will remove the extra AC Sync switch if it exists and will show \"AC Sync Button\" attached as a service to the Same AC Accessory (works only when `enableSyncButton` is set to true)  |          |  `false` |  Boolean  |
+| `enableOccupancySensor`    |  Adding occupancy sensor to represent the state of someone at home  |         |  `false` |  Boolean  |
+| `enableClimateReactSwitch` |  Adding a switch to quickly enable/disable climate react.     |          |  `false` |  Boolean |
 | `enableHistoryStorage`     |  When set to `true`, all measurements (temperature & humidity) will be saved and viewable from the Eve app  |         |  `false` |   Boolean |
-| `devicesToExclude`       |  Add devices identifier (room name, ID from logs or serial from Home app) to exclude from homebridge        |          |  - |  String[]  |
-| `locationsToInclude`       |  Device location IDs or names to include when discovering Sensibo devices (leave empty for all locations)        |          |  - |  String[]  |
-| `allowRepeatedCommands`  |  Allow the plugin to send the same state command again      |          |  `false` |  Boolean  |
-| `ignoreHomeKitDevices`  |  Automatically ignore, skip or remove HomeKit supported devices             |          |  `false` |  Boolean  |
-| `debug`       |  When set to `true`, the plugin will produce extra logs for debugging purposes        |          |  `false` |  Boolean  |
-
-
+| `externalHumiditySensor`   |  When set to `true`, adds humidity as a unique sensor         |          |  `false` |  Boolean |
+| `allowRepeatedCommands`    |  Allow the plugin to send the same state command again        |          |  `false` |  Boolean |
+| `devicesToExclude`         |  Add devices identifier (room name, ID from logs or serial from Home app) to exclude from homebridge  |          |  - |  String[]  |
+| `locationsToInclude`       |  Device location IDs or names to include when discovering Sensibo devices (leave empty for all locations)  |          |  - |  String[]  |
+| `debug`                    |  When set to `true`, the plugin will produce extra logs for debugging purposes  |          |  `false` |  Boolean  |
 
 # Advanced Control
 
@@ -165,15 +167,12 @@ It allows you to quickly toggle the state in Sensibo and Home app without changi
 
 When enabled, this feature creates a new switch accessory in HomeKit. The new switch is stateless, which means that when clicked, it turns back OFF after 1 second. behind the scenes, the plugin changes the state of the device from ON to OFF or the other way around, depends on the current state of the device. all of that, without sending actual commands to the AC! so you can relax while you test this button :)
 
-\* *it is extra necessary if your AC has the same command for ON and  OFF because it can go out of sync easily.*
+\* *it is extra necessary if your AC has the same command for ON and OFF because it can go out of sync easily.*
 
 
-**To enable the extra "AC Sync" switch**, add 
-`"enableSyncButton": true` to your config.
+**To enable the extra "AC Sync" switch**, add `"enableSyncButton": true` to your config.
 
-**To attach the "AC Sync" button as a service to the AC accessory instead of a separate switch**, add 
-`"syncButtonInAccessory": true` to your config.
-
+**To attach the "AC Sync" button as a service to the AC accessory instead of a separate switch**, add `"syncButtonInAccessory": true` to your config.
 
 ### Occupancy Sensor
 Enabling this feature will add **Occupancy Sensor** to HomeKit, representing the Home/Away state of the geofence feature in Sensibo app.
@@ -186,14 +185,11 @@ Enabling this feature will add **Occupancy Sensor** to HomeKit, representing the
 ### Climate React
 When enabled, this feature creates a new switch accessory in HomeKit. The new switch can quickly enable or disable the state of the "Climate React" you've set in Sensibo app.<br>
 
-
 Use this feature in conjunction with the occupancy sensor and you'll be able to get the "Sensibo Plus" feature that allows turning it on/off according to your geolocation. 
 
 *This feature does not allow changing the actual logic of the "Climate React" but only make it enabled or disabled. Therefore, it will not work if the "Climate React" was not set up in Sensibo app.
 
-**To enable the extra "Climate React" switch**, add 
-`"enableClimateReactSwitch": true` to your config.
-
+**To enable the extra "Climate React" switch**, add `"enableClimateReactSwitch": true` to your config.
 
 ### Filter Cleaning Indication
 
@@ -203,31 +199,19 @@ If you have the Filter Cleaning notifications feature in Sensibo (from Sensibo "
 2. **Filter Change Indication** - Boolean state represent whether the filter should be cleaned or not (based on usage time).
 3. **Reset Filter Indication** - Stateless button appears only in Eve app that resets the counter of the filter life. normally you would click this button right after you cleaned the filters.
 
-
 ### History Storage
 Enabling this feature will keep all measurements of temperature and humidity and will store them. Then, all the historic data will be viewable in Eve app under the accessory in a nice graph.
 
-**To enable the history storage feature**, add 
-`"enableHistoryStorage": true` to your config.
+**To enable the history storage feature**, add `"enableHistoryStorage": true` to your config.
 
 ### Fan speeds & "AUTO" speed
 Fan speed steps are determined by the steps you have available in the Sensibo app. Since HomeKit control over fan speed is with a slider between 0-100, the plugin converts the steps you have in the Sensibo app to values between 1 to 100, when 100 is highest and 1 is lowest. if "AUTO" speed is available in your setup, setting the fan speed to 0, should actually set it to "AUTO" speed.
 
 ### Issues & Debug
-If you experience any issues with the plugins please refer to the [Issues](https://github.com/nitaybz/homebridge-sensibo-ac/issues) tab or [Sensibo-AC Discord channel](https://discord.gg/yguuVAX) and check if your issue is already described there, if it doesn't, please create a new issue with as much detailed information as you can give (logs are crucial).<br>
+If you experience any issues with this fork of the plugin, please refer to the [Issues](https://github.com/benwebbbenwebb/homebridge-sensibo-ac/issues) tab and check if your issue is already described there. If it isn't, please create a new issue with as much detailed information as you can give (logs are crucial).
 
-if you want to even speed up the process, you can add `"debug": true` to your config, which will give me more details on the logs and speed up fixing the issue.
-
-<br>
-
-## Special Thanks
-Great thanks to Sensibo company and especially Omer Enbar, their CEO & CO-Founder, which helped me tremendously understanding their best practice, limitation, needs and extra *undocumented* features.
+If you want to even speed up the process, you can add `"debug": true` to your config, which will give me more details on the logs and speed up fixing the issue.
 
 ## Support homebridge-sensibo-ac
 
-**homebridge-sensibo-ac** is a free plugin under the GNU license. it was developed as a contribution to the homebridge/hoobs community with lots of love and thoughts.
-Creating and maintaining Homebridge plugins consume a lot of time and effort and if you would like to share your appreciation, feel free to "Star" or donate. 
-
-<a target="blank" href="https://www.paypal.me/nitaybz"><img src="https://img.shields.io/badge/PayPal-Donate-blue.svg?logo=paypal"/></a><br>
-<a target="blank" href="https://www.patreon.com/nitaybz"><img src="https://img.shields.io/badge/PATREON-Become a patron-red.svg?logo=patreon"/></a><br>
-<a target="blank" href="https://ko-fi.com/nitaybz"><img src="https://img.shields.io/badge/Ko--Fi-Buy%20me%20a%20coffee-29abe0.svg?logo=ko-fi"/></a>
+**homebridge-sensibo-ac** is a free plugin under the GNU license. This version is just a fork, all credit to the original creator [nitaybz](https://github.com/nitaybz/) and their original [homebridge-sensibo-ac package](https://www.npmjs.com/package/homebridge-sensibo-ac)
