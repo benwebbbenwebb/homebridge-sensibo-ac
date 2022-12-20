@@ -1,9 +1,9 @@
 {
-    "pluginAlias": "SensiboAC",
+    "pluginAlias": "@benwebbbenwebb/homebridge-sensibo-ac.SensiboAC",
     "pluginType": "platform",
     "singular": true,
     "headerDisplay": "Homebridge plugin for Sensibo - Smart AC Control",
-    "footerDisplay": "Created by @nitaybz",
+    "footerDisplay": "Created by @nitaybz, modified by @benwebbbenwebb",
     "schema": {
         "type": "object",
         "properties": {

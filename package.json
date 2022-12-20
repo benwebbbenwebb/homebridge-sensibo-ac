@@ -2,7 +2,7 @@
   "name": "@benwebbbenwebb/homebridge-sensibo-ac",
   "author": "https://github.com/benwebbbenwebb",
   "description": "Homebridge plugin for Sensibo - Smart AC Control. Forked from https://github.com/nitaybz/homebridge-sensibo-ac to add support for Air & AirPro (Airq) devices",
-  "version": "2.3.1",
+  "version": "2.3.2",
   "repository": {
     "type": "git",
     "url": "git://github.com/benwebbbenwebb/homebridge-sensibo-ac.git"

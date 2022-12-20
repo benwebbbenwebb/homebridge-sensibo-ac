@@ -56,7 +56,7 @@ If you don't use Homebridge UI or HOOBS, or if you want to know more about the p
 ```
 "platforms": [
     {
-        "platform": "SensiboAC",
+        "platform": "@benwebbbenwebb/homebridge-sensibo-ac.SensiboAC",
         "username": "******@*******.**",
         "password": "*******"
     }
@@ -67,7 +67,7 @@ If you don't use Homebridge UI or HOOBS, or if you want to know more about the p
 ```
 "platforms": [
     {
-        "platform": "SensiboAC",
+        "platform": "@benwebbbenwebb/homebridge-sensibo-ac.SensiboAC",
         "username": "******@*******.**",
         "password": "*******",
         "apiKey": "*******",
@@ -96,7 +96,7 @@ If you don't use Homebridge UI or HOOBS, or if you want to know more about the p
 
 |             Parameter            |                       Description                       | Required |  Default |   type   |
 | -------------------------------- | ------------------------------------------------------- |:--------:|:--------:|:--------:|
-| `platform`                 | always "SensiboAC"                                            |     ✓    |     -    |  String  |
+| `platform`                 | always "@benwebbbenwebb/homebridge-sensibo-ac.SensiboAC"      |     ✓    |     -    |  String  |
 | `username`                 | Your Sensibo account username/email                           |     ✓    |     -    |  String  |
 | `password`                 | Your Sensibo account password                                 |     ✓    |     -    |  String  |
 | `apiKey`                   | Your Sensibo account API key (can be used instead of username/password)  |          |     -    |  String  |

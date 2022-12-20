@@ -3,8 +3,8 @@ const syncHomeKitCache = require('./sensibo/syncHomeKitCache')
 const refreshState = require('./sensibo/refreshState')
 const path = require('path')
 const storage = require('node-persist')
-const PLUGIN_NAME = 'homebridge-sensibo-ac'
-const PLATFORM_NAME = 'SensiboAC'
+const PLUGIN_NAME = '@benwebbbenwebb/homebridge-sensibo-ac'
+const PLATFORM_NAME = '@benwebbbenwebb/homebridge-sensibo-ac.SensiboAC'
 
 module.exports = (api) => {
 	api.registerPlatform(PLUGIN_NAME, PLATFORM_NAME, SensiboACPlatform)
@@ -54,7 +54,7 @@ class SensiboACPlatform {
 		this.ignoreHomeKitDevices = config['ignoreHomeKitDevices'] || false
 
 		this.persistPath = path.join(this.api.user.persistPath(), '/../sensibo-persist')
-		this.emptyState = {devices:{}, sensors:{} ,occupancy: {}}
+		this.emptyState = {devices:{}, sensors:{}, occupancy: {}}
 		this.CELSIUS_UNIT = 'C'
 		this.FAHRENHEIT_UNIT = 'F'
 		const requestedInterval = 90000 // Sensibo interval is hardcoded (requested by the brand)
