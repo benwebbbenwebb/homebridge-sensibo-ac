@@ -4,7 +4,7 @@ const refreshState = require('./sensibo/refreshState')
 const path = require('path')
 const storage = require('node-persist')
 const PLUGIN_NAME = '@benwebbbenwebb/homebridge-sensibo-ac'
-const PLATFORM_NAME = '@benwebbbenwebb/homebridge-sensibo-ac.SensiboAC'
+const PLATFORM_NAME = 'SensiboAC'
 
 module.exports = (api) => {
 	api.registerPlatform(PLUGIN_NAME, PLATFORM_NAME, SensiboACPlatform)
