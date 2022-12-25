@@ -11,14 +11,19 @@ module.exports = (platform) => {
 	return () => {
 		platform.devices.forEach(device => {
 
-			if (platform.ignoreHomeKitDevices && device.homekitSupported)
-				return
+			if (platform.ignoreHomeKitDevices && device.homekitSupported) {
+				platform.log.easyDebug(`Ignoring Homekit supported device: ${device.id}`)
+				return				
+			}
 
-			if (!device.remoteCapabilities)
+			if (!device.remoteCapabilities) {
+				platform.log.easyDebug(`Ignoring as no remote capabilities available device: ${device.id}`)
 				return
+			}
 
 			// Add AirConditioner
-			if (['sky','air','airq'].includes(device.productModel)) {
+			// TODO clean up productModel if condition
+			if (['sky','skyv2','skyplus','air','airq'].includes(device.productModel) || device.productModel.includes('air') || device.productModel.includes('sky')) {
 				const airConditionerIsNew = !platform.activeAccessories.find(accessory => accessory.type === 'AirConditioner' && accessory.id === device.id)
 				if (airConditionerIsNew) {
 					const airConditioner = new AirConditioner(device, platform)
@@ -99,7 +104,8 @@ module.exports = (platform) => {
 			let deviceExists, sensorExists, locationExists
 			switch(accessory.context.type) {
 			case 'AirConditioner':
-				deviceExists = platform.devices.find(device => device.id === accessory.context.deviceId && device.remoteCapabilities && ['sky','air','airq'].includes(device.productModel))
+				// TODO clean up productModel matching
+				deviceExists = platform.devices.find(device => device.id === accessory.context.deviceId && device.remoteCapabilities && (['sky','skyv2','skyplus','air','airq'].includes(device.productModel) || device.productModel.includes('air') || device.productModel.includes('sky') ))
 				if (!deviceExists)
 					accessoriesToRemove.push(accessory)
 				break
